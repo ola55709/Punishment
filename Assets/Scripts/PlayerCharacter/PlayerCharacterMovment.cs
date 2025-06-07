@@ -7,6 +7,8 @@ public class PlayerCharacterMovment : MonoBehaviour
 {
     public float PlayerHorizontalSpeed { get; private set; }
     public int PlayerHorizontalDirection { get; private set; }
+    public bool PlayerIsJumping { get; private set; }
+
 
     [SerializeField]
     private float _moveSpeed = 5f;
@@ -45,7 +47,7 @@ public class PlayerCharacterMovment : MonoBehaviour
 
     private bool IsGrounded()
     {
-        if (_isGroundedColider != null && _isGroundedColider.IsTouchingLayers(_floorLayerMask)) 
+        if (_isGroundedColider != null && _isGroundedColider.IsTouchingLayers(_floorLayerMask) && _rb.linearVelocity.y <= 0) 
         {
             return true;
         }
@@ -57,12 +59,17 @@ public class PlayerCharacterMovment : MonoBehaviour
 
     private void Update()
     {
-        if (_controls.Player.Jump.WasPressedThisFrame() && IsGrounded())
+        if (IsGrounded())
         {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0f); // Reset Y velocity
-            _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+            PlayerIsJumping = false;
+            if (_controls.Player.Jump.WasPressedThisFrame())
+            {
+                _rb.linearVelocity = new Vector2(_rb.linearVelocity.x, 0f);
+                _rb.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+                PlayerIsJumping = true;
+            }
         }
-    }
+    }   
 
     private void FixedUpdate()
     {

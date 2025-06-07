@@ -11,9 +11,10 @@ public class PlayerCharacterAnimations : MonoBehaviour
     }
     void Update()
     {
-        Debug.Log(_playerCharacterMovment.PlayerHorizontalDirection);
         _animator.SetInteger("Horizontal Speed", (int)_playerCharacterMovment.PlayerHorizontalSpeed);
-        if(_playerCharacterMovment.PlayerHorizontalDirection < 0)
+        _animator.SetBool("Is Jumping", _playerCharacterMovment.PlayerIsJumping);
+
+        if (_playerCharacterMovment.PlayerHorizontalDirection < 0)
         {
             var scale = transform.localScale;
             scale.x = -Mathf.Abs(transform.localScale.x);

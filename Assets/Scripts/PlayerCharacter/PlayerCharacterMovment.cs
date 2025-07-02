@@ -1,7 +1,4 @@
-using Unity.VisualScripting;
-using UnityEditor.ShaderGraph;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class PlayerCharacterMovment : MonoBehaviour
 {
